@@ -95,97 +95,7 @@ public class Images extends RESTService {
 
     private final Images service = (Images) Context.getCurrent().getService();
 
-      /**
-   * 
-   * getImages
-   *
-   * 
-   *
-   * 
-   * @return Response 
-   * 
-   */
-  @GET
-  @Path("/")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.TEXT_PLAIN)
-  @ApiResponses(value = {
-       @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "images")
-  })
-  @ApiOperation(value = "getImages", notes = " ")
-  public Response getImages() {
-
-
-    // images
-    boolean images_condition = true;
-    if(images_condition) {
-      JSONObject imagesResult = new JSONObject();
-
-      List<String> imageList = new ArrayList<>();
-      try {
-        while (results.next()) {
-          imageList.add(results.getString(1));
-        }
-      } catch (SQLException e) {
-        e.printStackTrace();
-      }
-      imagesResult.put("images", imageList);
-
-      return Response.status(HttpURLConnection.HTTP_OK).entity(imagesResult.toJSONString()).build();
-    }
-    return null;
-  }
-
-  /**
-   * 
-   * addImage
-   *
-   * 
-   * @param image  a JSONObject
-   * 
-   * @return Response 
-   * 
-   */
-  @POST
-  @Path("/")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.TEXT_PLAIN)
-  @ApiResponses(value = {
-       @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "imageUploaded")
-  })
-  @ApiOperation(value = "addImage", notes = " ")
-  public Response addImage(String image) {
-    JSONObject image_JSON = (JSONObject) JSONValue.parse(image);
-
-
-
-
-    // service method invocations
-    try {
-      PreparedStatement preparedStmt = this.service.dbm.getConnection().prepareStatement("INSERT INTO Images (imageData) VALUES (?)");
-      preparedStmt.setString(1, (String) image_JSON.get("image"));
-      preparedStmt.execute();
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
-
-
-
-
-
-    // imageUploaded
-    boolean imageUploaded_condition = true;
-    if(imageUploaded_condition) {
-      JSONObject imageUploadedResult = new JSONObject();
-      imageUploadedResult.put("msg", "upload successful");
-      
-
-      return Response.status(HttpURLConnection.HTTP_OK).entity(imageUploadedResult.toJSONString()).build();
-    }
-    return null;
-  }
-
-
+    
 
   }
 
@@ -201,45 +111,7 @@ public class Images extends RESTService {
 
   public Map<String, String> getCustomMessageDescriptions() {
     Map<String, String> descriptions = new HashMap<>();
-        descriptions.put("SERVICE_CUSTOM_MESSAGE_2", "# HTTP Response Duration of Method addImage (POST)\n"
-        + "\n"
-        + "The number of milliseconds until the response is returned is logged according to the following JSON pattern:\n"
-        + "```json\n"
-        + "{ \"time\": <time_in_ms>, \"method\": <method_name>, \"resource\": <resource_name> }\n"
-        + "```\n"
-        + "## Example Measures\n"
-        + "### Response Duration\n"
-        + "Show in a line chart how long each request took to be processed.\n"
-        + "```sql\n"
-        + "SELECT TIME_STAMP, CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_2\" AND SOURCE_AGENT = '$SERVICE$'\n"
-        + "```\n"
-        + "Visualization: line chart\n"
-        + "\n"
-        + "## Number of times addImage (POST) took longer than 400ms\n"
-        + "```sql\n"
-        + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_2\" AND SOURCE_AGENT = '$SERVICE$' AND CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) > 400\n"
-        + "```\n"
-        + "Visualization: line chart\n");
-    descriptions.put("SERVICE_CUSTOM_MESSAGE_1", "# HTTP Response Duration of Method getImages (GET)\n"
-        + "\n"
-        + "The number of milliseconds until the response is returned is logged according to the following JSON pattern:\n"
-        + "```json\n"
-        + "{ \"time\": <time_in_ms>, \"method\": <method_name>, \"resource\": <resource_name> }\n"
-        + "```\n"
-        + "## Example Measures\n"
-        + "### Response Duration\n"
-        + "Show in a line chart how long each request took to be processed.\n"
-        + "```sql\n"
-        + "SELECT TIME_STAMP, CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT = '$SERVICE$'\n"
-        + "```\n"
-        + "Visualization: line chart\n"
-        + "\n"
-        + "## Number of times getImages (GET) took longer than 400ms\n"
-        + "```sql\n"
-        + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT = '$SERVICE$' AND CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) > 400\n"
-        + "```\n"
-        + "Visualization: line chart\n");
-
+    
     return descriptions;
   }
 
