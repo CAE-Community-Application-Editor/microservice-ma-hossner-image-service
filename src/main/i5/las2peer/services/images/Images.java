@@ -119,7 +119,15 @@ public class Images extends RESTService {
 
 
     // service method invocations 
-    
+     
+    // !!! BUG !!!
+    try {
+      TimeUnit.SECONDS.sleep(1);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    // !!! ENDBUG !!! 
+
     ResultSet results;
     try {
       results = this.service.dbm.getConnection().createStatement().executeQuery("SELECT imageData FROM Images");
