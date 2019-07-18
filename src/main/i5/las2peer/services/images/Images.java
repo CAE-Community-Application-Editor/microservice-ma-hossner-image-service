@@ -138,7 +138,7 @@ public class Images extends RESTService {
       List<String> imageList = new ArrayList<>();
       try {
         while (results.next()) {
-          imageList.add(results.getString(0));
+          imageList.add(results.getString(1));
         }
       } catch (SQLException e) {
         e.printStackTrace();
