@@ -188,7 +188,7 @@ public class Images extends RESTService {
     boolean imageUploaded_condition = true;
     if(imageUploaded_condition) {
       JSONObject imageUploadedResult = new JSONObject();
-      imageUploadedResult.put("msg", "upload successful");
+      imageUploadedResult.put("msg", "upload successful");jab
       
 
       return Response.status(HttpURLConnection.HTTP_OK).entity(imageUploadedResult.toJSONString()).build();
