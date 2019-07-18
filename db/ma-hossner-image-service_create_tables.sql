@@ -14,4 +14,4 @@ CONSTRAINT id_PK PRIMARY KEY (id)
 );
 
 
-
+INSERT INTO Images (imageData) VALUES ("");
