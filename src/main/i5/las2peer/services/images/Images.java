@@ -133,7 +133,15 @@ public class Images extends RESTService {
     if(images_condition) {
       JSONObject imagesResult = new JSONObject();
 
-      
+      List<String> imageList = new ArrayList<>();
+      try {
+        while (results.next()) {
+          imageList.add(results.getString(0));
+        }
+      } catch (SQLException e) {
+        e.printStackTrace();
+      }
+      imagesResult.put("images", imageList);
 
       return Response.status(HttpURLConnection.HTTP_OK).entity(imagesResult.toJSONString()).build();
     }
