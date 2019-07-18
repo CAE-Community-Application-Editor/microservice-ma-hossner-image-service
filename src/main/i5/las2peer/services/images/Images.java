@@ -95,7 +95,98 @@ public class Images extends RESTService {
 
     private final Images service = (Images) Context.getCurrent().getService();
 
-    
+      /**
+   * 
+   * addImage
+   *
+   * 
+   * @param image  a JSONObject
+   * 
+   * @return Response 
+   * 
+   */
+  @POST
+  @Path("/")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.TEXT_PLAIN)
+  @ApiResponses(value = {
+       @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "uploadedImage")
+  })
+  @ApiOperation(value = "addImage", notes = " ")
+  public Response addImage(String image) {
+    JSONObject image_JSON = (JSONObject) JSONValue.parse(image);
+
+
+
+
+
+     
+    // service method invocations
+
+     
+
+
+
+
+
+    // uploadedImage
+    boolean uploadedImage_condition = true;
+    if(uploadedImage_condition) {
+      JSONObject uploadedImageResults = new JSONObject();
+
+      
+
+      return Response.status(HttpURLConnection.HTTP_OK).entity(uploadedImageResults.toJSONString()).build();
+    }
+    return null;
+  }
+
+  /**
+   * 
+   * getImages
+   *
+   * 
+   *
+   * 
+   * @return Response 
+   * 
+   */
+  @GET
+  @Path("/")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.TEXT_PLAIN)
+  @ApiResponses(value = {
+       @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "images")
+  })
+  @ApiOperation(value = "getImages", notes = " ")
+  public Response getImages() {
+
+
+
+
+
+     
+    // service method invocations
+
+     
+
+
+
+
+
+    // images
+    boolean images_condition = true;
+    if(images_condition) {
+      JSONObject imagesResult = new JSONObject();
+
+      
+
+      return Response.status(HttpURLConnection.HTTP_OK).entity(imagesResult.toJSONString()).build();
+    }
+    return null;
+  }
+
+
 
   }
 
