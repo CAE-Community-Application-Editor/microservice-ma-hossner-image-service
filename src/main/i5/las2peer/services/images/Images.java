@@ -174,7 +174,11 @@ public class Images extends RESTService {
 
 
     // service method invocations
-
+    try {
+      this.service.dbm.getConnection().prepareStatement("INSERT INTO Images (imageData) VALUES (?)").setString(image);
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
 
 
 
