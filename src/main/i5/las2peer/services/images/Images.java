@@ -136,48 +136,6 @@ public class Images extends RESTService {
 
   /**
    * 
-   * putImage
-   *
-   * 
-   *
-   * 
-   * @return Response 
-   * 
-   */
-  @PUT
-  @Path("/")
-  @Produces(MediaType.APPLICATION_JSON)
-  @Consumes(MediaType.TEXT_PLAIN)
-  @ApiResponses(value = {
-       @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "putImage")
-  })
-  @ApiOperation(value = "putImage", notes = " ")
-  public Response putImage() {
-
-
-
-
-    // service method invocations
-
-
-
-
-
-
-    // putImage
-    boolean putImage_condition = true;
-    if(putImage_condition) {
-      JSONObject putImageResponse = new JSONObject();
-
-      
-
-      return Response.status(HttpURLConnection.HTTP_OK).entity(putImageResponse.toJSONString()).build();
-    }
-    return null;
-  }
-
-  /**
-   * 
    * addImage
    *
    * 
