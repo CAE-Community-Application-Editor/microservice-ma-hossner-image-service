@@ -81,7 +81,7 @@ public class Images extends RESTService {
 
   @Api
   @SwaggerDefinition(
-      info = @Info(title = "ma-hossner-image-service", version = "1",
+      info = @Info(title = "ma-hossner-image-service", version = "2",
           description = "Simple image hosting service.",
           termsOfService = "",
           contact = @Contact(name = "Philipp Hossner", email = "CAEAddress@gmail.com") ,
@@ -130,6 +130,48 @@ public class Images extends RESTService {
       
 
       return Response.status(HttpURLConnection.HTTP_OK).entity(imagesResult.toJSONString()).build();
+    }
+    return null;
+  }
+
+  /**
+   * 
+   * putImage
+   *
+   * 
+   *
+   * 
+   * @return Response 
+   * 
+   */
+  @PUT
+  @Path("/")
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.TEXT_PLAIN)
+  @ApiResponses(value = {
+       @ApiResponse(code = HttpURLConnection.HTTP_OK, message = "putImage")
+  })
+  @ApiOperation(value = "putImage", notes = " ")
+  public Response putImage() {
+
+
+
+
+    // service method invocations
+
+
+
+
+
+
+    // putImage
+    boolean putImage_condition = true;
+    if(putImage_condition) {
+      JSONObject putImageResponse = new JSONObject();
+
+      
+
+      return Response.status(HttpURLConnection.HTTP_OK).entity(putImageResponse.toJSONString()).build();
     }
     return null;
   }
