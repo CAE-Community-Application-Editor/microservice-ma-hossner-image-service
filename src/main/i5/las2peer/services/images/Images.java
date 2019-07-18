@@ -140,7 +140,7 @@ public class Images extends RESTService {
     if(uploadedImage_condition) {
       JSONObject uploadedImageResults = new JSONObject();
 
-      
+            
 
       return Response.status(HttpURLConnection.HTTP_OK).entity(uploadedImageResults.toJSONString()).build();
     }
