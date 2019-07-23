@@ -177,7 +177,7 @@ public class Images extends RESTService {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    // !!! ENDBUG !!!
+    // !!! ENDBUG !
 
     ResultSet results;
     try {
