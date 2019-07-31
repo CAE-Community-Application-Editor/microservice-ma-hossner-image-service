@@ -116,12 +116,6 @@ public class Images extends RESTService {
   public Response addImage(String image) {
     JSONObject image_JSON = (JSONObject) JSONValue.parse(image);
 
-    JSONObject imageLogObj = new JSONObject();
-    imageLogObj.put("payload", image);
-    imageLogObj.put("payload_name", "image");
-    imageLogObj.put("method", "POST");
-    imageLogObj.put("resource", "Images");
-    Context.get().monitorEvent((Object)null, MonitoringEvent.SERVICE_CUSTOM_MESSAGE_1, imageLogObj.toJSONString(), false);
 
 
 
@@ -259,24 +253,24 @@ public class Images extends RESTService {
         + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_20\" AND SOURCE_AGENT IN $SERVICES$ AND CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) > 400\n"
         + "```\n"
         + "Visualization: line chart\n");
-    descriptions.put("SERVICE_CUSTOM_MESSAGE_1", "# HTTP Payload of Method addImage (POST)\n"
+    descriptions.put("SERVICE_CUSTOM_MESSAGE_1", "# HTTP Response of Method addImage (POST)\n"
         + "\n"
-        + "The payload *image* is logged according to the following JSON pattern:\n"
+        + "The response is logged according to the following JSON pattern:\n"
         + "```json\n"
-        + "{ \"payload\": <payload_content>, \"payload_name\": <name_of_payload_variable>, \"method\": <method_name>, \"resource\": <resource_name> }\n"
+        + "{ \"response\": <response_content>, \"code\": <http_code>, \"method\": <method_name>, \"resource\": <resource_name> }\n"
         + "```\n"
         + "## Example Measures\n"
-        + "### addImage Payloads\n"
-        + "Show different payloads that users have submitted.\n"
+        + "### addImage Reponses\n"
+        + "Show different responses that were returned to the users.\n"
         + "```sql\n"
-        + "SELECT JSON_EXTRACT(REMARKS,\"$.payload\") AS payload, COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$ GROUP BY JSON_EXTRACT(REMARKS,\"$.payload\")\n"
+        + "SELECT JSON_EXTRACT(REMARKS,\"$.response\") AS payload, COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$ GROUP BY JSON_EXTRACT(REMARKS,\"$.response\")\n"
         + "```\n"
         + "Visualization: bar chart or pie chart\n"
         + "\n"
-        + "### Number of \"foo\" Values in the last 24h\n"
-        + "Count all requests where the payload has been \"foo\" within the last 24 hours."
+        + "### Number of \"foo\" Responses in the last 24h\n"
+        + "Count all responses where the content has been \"foo\" within the last 24 hours.\n"
         + "```sql\n"
-        + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$ AND JSON_EXTRACT(REMARKS,\"$.payload\") = \"foo\" AND TIME_STAMP >= DATE_SUB(NOW(), INTERVAL 1 DAY)\n"
+        + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$ AND JSON_EXTRACT(REMARKS,\"$.response\") = \"foo\" AND TIME_STAMP >= DATE_SUB(NOW(), INTERVAL 1 DAY)\n"
         + "```\n"
         + "Visualization: value\n");
 
