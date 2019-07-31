@@ -118,7 +118,7 @@ public class Images extends RESTService {
 
 
 
-
+    long processingStart = System.currentTimeMillis();
 
     try {
       PreparedStatement preparedStmt = this.service.dbm.getConnection().prepareStatement("INSERT INTO Images (imageData) VALUES (?)");
@@ -131,9 +131,13 @@ public class Images extends RESTService {
 
      
 
-
-
-
+    long processingFinished = System.currentTimeMillis();
+    long processingDuration = processingFinished - processingStart;
+    JSONObject processingDurationObj = new JSONObject();
+    processingDurationObj.put("time", processingDuration);
+    processingDurationObj.put("method", "POST");
+    processingDurationObj.put("resource", "Images");
+    Context.get().monitorEvent((Object)null, MonitoringEvent.SERVICE_CUSTOM_MESSAGE_1, processingDurationObj.toJSONString(), false);
 
     // uploadedImage
     boolean uploadedImage_condition = true;
@@ -196,7 +200,7 @@ public class Images extends RESTService {
     processingDurationObj.put("time", processingDuration);
     processingDurationObj.put("method", "GET");
     processingDurationObj.put("resource", "Images");
-    Context.get().monitorEvent((Object)null, MonitoringEvent.SERVICE_CUSTOM_MESSAGE_1, processingDurationObj.toJSONString(), false);
+    Context.get().monitorEvent((Object)null, MonitoringEvent.SERVICE_CUSTOM_MESSAGE_20, processingDurationObj.toJSONString(), false);
 
     // images
     boolean images_condition = true;
@@ -234,7 +238,26 @@ public class Images extends RESTService {
 
   public Map<String, String> getCustomMessageDescriptions() {
     Map<String, String> descriptions = new HashMap<>();
-        descriptions.put("SERVICE_CUSTOM_MESSAGE_1", "# HTTP Response Duration of Method getImages (GET)\n"
+        descriptions.put("SERVICE_CUSTOM_MESSAGE_20", "# HTTP Response Duration of Method getImages (GET)\n"
+        + "\n"
+        + "The number of milliseconds until the response is returned is logged according to the following JSON pattern:\n"
+        + "```json\n"
+        + "{ \"time\": <time_in_ms>, \"method\": <method_name>, \"resource\": <resource_name> }\n"
+        + "```\n"
+        + "## Example Measures\n"
+        + "### Response Duration\n"
+        + "Show in a line chart how long each request took to be processed.\n"
+        + "```sql\n"
+        + "SELECT TIME_STAMP, CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) AS timing FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_20\" AND SOURCE_AGENT IN $SERVICES$\n"
+        + "```\n"
+        + "Visualization: line chart\n"
+        + "\n"
+        + "## Number of times getImages (GET) took longer than 400ms\n"
+        + "```sql\n"
+        + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_20\" AND SOURCE_AGENT IN $SERVICES$ AND CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) > 400\n"
+        + "```\n"
+        + "Visualization: line chart\n");
+    descriptions.put("SERVICE_CUSTOM_MESSAGE_1", "# HTTP Response Duration of Method addImage (POST)\n"
         + "\n"
         + "The number of milliseconds until the response is returned is logged according to the following JSON pattern:\n"
         + "```json\n"
@@ -248,7 +271,7 @@ public class Images extends RESTService {
         + "```\n"
         + "Visualization: line chart\n"
         + "\n"
-        + "## Number of times getImages (GET) took longer than 400ms\n"
+        + "## Number of times addImage (POST) took longer than 400ms\n"
         + "```sql\n"
         + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$ AND CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) > 400\n"
         + "```\n"
