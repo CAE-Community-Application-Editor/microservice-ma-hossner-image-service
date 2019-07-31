@@ -116,9 +116,15 @@ public class Images extends RESTService {
   public Response addImage(String image) {
     JSONObject image_JSON = (JSONObject) JSONValue.parse(image);
 
+    JSONObject imageLogObj = new JSONObject();
+    imageLogObj.put("payload", image);
+    imageLogObj.put("payload_name", "image");
+    imageLogObj.put("method", "POST");
+    imageLogObj.put("resource", "Images");
+    Context.get().monitorEvent((Object)null, MonitoringEvent.SERVICE_CUSTOM_MESSAGE_1, imageLogObj.toJSONString(), false);
 
 
-    long processingStart = System.currentTimeMillis();
+
 
     try {
       PreparedStatement preparedStmt = this.service.dbm.getConnection().prepareStatement("INSERT INTO Images (imageData) VALUES (?)");
@@ -131,13 +137,9 @@ public class Images extends RESTService {
 
      
 
-    long processingFinished = System.currentTimeMillis();
-    long processingDuration = processingFinished - processingStart;
-    JSONObject processingDurationObj = new JSONObject();
-    processingDurationObj.put("time", processingDuration);
-    processingDurationObj.put("method", "POST");
-    processingDurationObj.put("resource", "Images");
-    Context.get().monitorEvent((Object)null, MonitoringEvent.SERVICE_CUSTOM_MESSAGE_1, processingDurationObj.toJSONString(), false);
+
+
+
 
     // uploadedImage
     boolean uploadedImage_condition = true;
@@ -257,25 +259,26 @@ public class Images extends RESTService {
         + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_20\" AND SOURCE_AGENT IN $SERVICES$ AND CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) > 400\n"
         + "```\n"
         + "Visualization: line chart\n");
-    descriptions.put("SERVICE_CUSTOM_MESSAGE_1", "# HTTP Response Duration of Method addImage (POST)\n"
+    descriptions.put("SERVICE_CUSTOM_MESSAGE_1", "# HTTP Payload of Method addImage (POST)\n"
         + "\n"
-        + "The number of milliseconds until the response is returned is logged according to the following JSON pattern:\n"
+        + "The payload *image* is logged according to the following JSON pattern:\n"
         + "```json\n"
-        + "{ \"time\": <time_in_ms>, \"method\": <method_name>, \"resource\": <resource_name> }\n"
+        + "{ \"payload\": <payload_content>, \"payload_name\": <name_of_payload_variable>, \"method\": <method_name>, \"resource\": <resource_name> }\n"
         + "```\n"
         + "## Example Measures\n"
-        + "### Response Duration\n"
-        + "Show in a line chart how long each request took to be processed.\n"
+        + "### addImage Payloads\n"
+        + "Show different payloads that users have submitted.\n"
         + "```sql\n"
-        + "SELECT TIME_STAMP, CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) AS timing FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$\n"
+        + "SELECT JSON_EXTRACT(REMARKS,\"$.payload\") AS payload, COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$ GROUP BY JSON_EXTRACT(REMARKS,\"$.payload\")\n"
         + "```\n"
-        + "Visualization: line chart\n"
+        + "Visualization: bar chart or pie chart\n"
         + "\n"
-        + "## Number of times addImage (POST) took longer than 400ms\n"
+        + "### Number of \"foo\" Values in the last 24h\n"
+        + "Count all requests where the payload has been \"foo\" within the last 24 hours."
         + "```sql\n"
-        + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$ AND CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) > 400\n"
+        + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$ AND JSON_EXTRACT(REMARKS,\"$.payload\") = \"foo\" AND TIME_STAMP >= DATE_SUB(NOW(), INTERVAL 1 DAY)\n"
         + "```\n"
-        + "Visualization: line chart\n");
+        + "Visualization: value\n");
 
     return descriptions;
   }
