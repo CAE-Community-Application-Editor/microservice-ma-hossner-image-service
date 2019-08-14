@@ -253,26 +253,6 @@ public class Images extends RESTService {
         + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_20\" AND SOURCE_AGENT IN $SERVICES$ AND CAST(JSON_EXTRACT(REMARKS,\"$.time\") AS UNSIGNED) > 400\n"
         + "```\n"
         + "Visualization: line chart\n");
-    descriptions.put("SERVICE_CUSTOM_MESSAGE_1", "# HTTP Response of Method addImage (POST)\n"
-        + "\n"
-        + "The response is logged according to the following JSON pattern:\n"
-        + "```json\n"
-        + "{ \"response\": <response_content>, \"code\": <http_code>, \"method\": <method_name>, \"resource\": <resource_name> }\n"
-        + "```\n"
-        + "## Example Measures\n"
-        + "### addImage Reponses\n"
-        + "Show different responses that were returned to the users.\n"
-        + "```sql\n"
-        + "SELECT JSON_EXTRACT(REMARKS,\"$.response\") AS payload, COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$ GROUP BY JSON_EXTRACT(REMARKS,\"$.response\")\n"
-        + "```\n"
-        + "Visualization: bar chart or pie chart\n"
-        + "\n"
-        + "### Number of \"foo\" Responses in the last 24h\n"
-        + "Count all responses where the content has been \"foo\" within the last 24 hours.\n"
-        + "```sql\n"
-        + "SELECT COUNT(*) FROM MESSAGE WHERE EVENT=\"SERVICE_CUSTOM_MESSAGE_1\" AND SOURCE_AGENT IN $SERVICES$ AND JSON_EXTRACT(REMARKS,\"$.response\") = \"foo\" AND TIME_STAMP >= DATE_SUB(NOW(), INTERVAL 1 DAY)\n"
-        + "```\n"
-        + "Visualization: value\n");
 
     return descriptions;
   }
